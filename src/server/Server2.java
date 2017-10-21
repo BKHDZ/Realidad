@@ -55,8 +55,8 @@ public class Server2 extends Thread {
                         seresVivos.put(key, value);
                         naveRecibida.avadonarNave(key);
                     }
-                    
-                     naves.put(naveRecibida.getNombre(), naveRecibida);
+
+                    naves.put(naveRecibida.getNombre(), naveRecibida);
                     System.out.println("Nave Recibida :[" + naveRecibida.getNombre() + "] agregada a la lista. ");
 
                     in.close();
