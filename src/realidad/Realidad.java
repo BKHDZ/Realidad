@@ -38,6 +38,7 @@ public class Realidad {
      * @param args the command line arguments
      */
     public static void main(String[] args) {
+        
 
         //<editor-fold defaultstate="collapsed" desc="DECLARACION">
         TreeMap<String, SerVivo> seresVivos = new TreeMap<String, SerVivo>();
