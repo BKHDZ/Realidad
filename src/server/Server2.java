@@ -53,8 +53,12 @@ public class Server2 extends Thread {
                         String key = entry.getKey();
                         SerVivo value = entry.getValue();
                         seresVivos.put(key, value);
-                        naveRecibida.avadonarNave(key);
                     }
+                    naveRecibida.getTripulantes().clear();
+                    
+                    
+                    
+                    
 
                     naves.put(naveRecibida.getNombre(), naveRecibida);
                     System.out.println("Nave Recibida :[" + naveRecibida.getNombre() + "] agregada a la lista. ");
