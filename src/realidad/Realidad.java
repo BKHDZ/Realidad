@@ -85,7 +85,7 @@ public class Realidad {
                 try {
                     System.out.println("------------------------");
                     for (Map.Entry<String, String> entry : opciones.entrySet()) {
-                        System.out.println("Opciones[" + entry.getKey() + "} Operacion[" + entry.getValue() + "]");
+                        System.out.println("Opciones[" + entry.getKey() + "] Operacion[" + entry.getValue() + "]");
 
                     }
                     opcionDigitada = reader.readLine();
@@ -102,7 +102,7 @@ public class Realidad {
                         if (opcionDigitada.equals("SV")) {
                             System.out.println("Que desea crear?");
                             for (Map.Entry<String, String> entry : opcionesSerVivo.entrySet()) {
-                                System.out.println("Opciones[" + entry.getKey() + "} Operacion[" + entry.getValue());
+                                System.out.println("Opciones[" + entry.getKey() + "] Operacion[" + entry.getValue());
 
                             }
                             opcionDigitada = reader.readLine();
@@ -227,6 +227,9 @@ public class Realidad {
 
                                 out.writeObject(naves.get(naveSeleccionada));
                                 naves.remove(naveSeleccionada);
+                                for (Map.Entry<String, SerVivo> entry : naves.get(naveSeleccionada).getTripulantes().entrySet()) {
+                                    seresVivos.remove(entry.getKey());
+                                }
                                 in.close();
                                 out.close();
 
@@ -242,7 +245,7 @@ public class Realidad {
                         if (opcionDigitada.equals("CN")) {
                             System.out.println("Que desea crear?");
                             for (Map.Entry<String, String> entry : opcionesNave.entrySet()) {
-                                System.out.println("Opciones[" + entry.getKey() + "} Operacion[" + entry.getValue());
+                                System.out.println("Opciones[" + entry.getKey() + "] Operacion[" + entry.getValue());
 
                             }
                             opcionDigitada = reader.readLine();
@@ -298,7 +301,7 @@ public class Realidad {
                                     System.out.println(value.getNombre());
                                     System.out.println(value.getEdad());
                                 }
-                                System.out.println("Cual el ser vico que abordara la nave [" + naveSeleccionada + "] .");
+                                System.out.println("Cual el ser vivo que abordara la nave [" + naveSeleccionada + "] .");
                                 serVivoSeleccionado = reader.readLine();
 
                                 naves.get(naveSeleccionada).abordar(seresVivos.get(serVivoSeleccionado));
@@ -329,7 +332,5 @@ public class Realidad {
         //</editor-fold>
 
     }
-
-
 
 }
