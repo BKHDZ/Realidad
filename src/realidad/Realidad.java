@@ -334,4 +334,8 @@ public class Realidad {
         System.out.println("dasdasdas");
     }
 
+    public void ejemplo1() {
+        System.out.println("dasdasdas");
+    }
+
 }
