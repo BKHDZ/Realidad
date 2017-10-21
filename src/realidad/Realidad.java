@@ -26,8 +26,6 @@ import objetosComunes.Persona;
 import objetosComunes.SerVivo;
 import server.Server2;
 
-
-
 /**
  *
  * @author FAMILIA
@@ -38,7 +36,6 @@ public class Realidad {
      * @param args the command line arguments
      */
     public static void main(String[] args) {
-        
 
         //<editor-fold defaultstate="collapsed" desc="DECLARACION">
         TreeMap<String, SerVivo> seresVivos = new TreeMap<String, SerVivo>();
@@ -57,11 +54,11 @@ public class Realidad {
         LinkedHashMap<String, String> opcionesSerVivo = opcionesSerVivo = new LinkedHashMap<String, String>();
         opcionesSerVivo.put("H", "Humano");
         opcionesSerVivo.put("P", "Perro");
-        
+
         LinkedHashMap<String, String> opcionesNave = opcionesNave = new LinkedHashMap<String, String>();
         opcionesNave.put("NE", "Nave Escape");
         opcionesNave.put("NN", "Nave Nodriza");
-        
+
         BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
         String opcionDigitada;
         String tipo;
@@ -80,7 +77,7 @@ public class Realidad {
         Server2 server = new Server2(seresVivos, naves);
         server.start();
         //</editor-fold>
-        
+
         //<editor-fold defaultstate="collapsed" desc="PROGRAMA">
         try {
             System.out.println("Inicia el programa");
@@ -173,8 +170,8 @@ public class Realidad {
 
                         //<editor-fold defaultstate="collapsed" desc="EXPORTAR LISTA">
                         if (opcionDigitada.equals("ELSV")) {
-                             System.out.println("Digita la ruta para salvar");
-                            ruta = reader.readLine(); 
+                            System.out.println("Digita la ruta para salvar");
+                            ruta = reader.readLine();
                             System.out.println("Digite el nombre del archivo");
                             nombreDeArchivo = reader.readLine();
                             try {
@@ -182,11 +179,11 @@ public class Realidad {
                                 if (!rutaDeArchivo.exists()) {
                                     rutaDeArchivo.mkdirs();
                                 }
-                                File rutaDeArchivoYArchivo = new File (ruta + "/" + nombreDeArchivo);
+                                File rutaDeArchivoYArchivo = new File(ruta + "/" + nombreDeArchivo);
                                 if (rutaDeArchivoYArchivo.exists()) {
                                     rutaDeArchivoYArchivo.mkdirs();
                                 }
-                                
+
                                 CsvWriter csvWriter = new CsvWriter(rutaDeArchivoYArchivo.getAbsolutePath());
                                 for (Map.Entry<String, SerVivo> entry : seresVivos.entrySet()) {
                                     SerVivo serVivo = entry.getValue();
@@ -196,14 +193,14 @@ public class Realidad {
                                     csvWriter.endRecord();
                                 }
                                 csvWriter.close();
-                                 System.out.println("Lista exportada");
+                                System.out.println("Lista exportada");
                             } catch (Exception e) {
                                 e.printStackTrace();
                             }
 
                         }
                         //</editor-fold>
-                        
+
                         //<editor-fold defaultstate="collapsed" desc="ENVIA NAVE">
                         if (opcionDigitada.equals("EN")) {
                             System.out.println("Digite la ip");
@@ -212,10 +209,10 @@ public class Realidad {
                                 Socket socket = new Socket(ip, 9000);
                                 //PrintWriter out = new PrintWriter(socket.getOutputStream(), true);
                                 //BufferedReader in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
-                                
+
                                 ObjectOutputStream out = new ObjectOutputStream(socket.getOutputStream());
                                 ObjectInputStream in = new ObjectInputStream(socket.getInputStream());
-                               
+
                                 System.out.println("Estas son las naves Disponibles:");
                                 for (Map.Entry<String, Nave> entry : naves.entrySet()) {
                                     String key = entry.getKey();
@@ -223,18 +220,16 @@ public class Realidad {
                                     System.out.println(value.getNombre());
                                 }
                                 System.out.println("Cual es la que desea enviar.");
-                                naveSeleccionada=reader.readLine();
+                                naveSeleccionada = reader.readLine();
                                 if (!naves.containsKey(naveSeleccionada)) {
                                     throw new Exception("La nave no existe");
                                 }
-                                
-                                out.writeObject( naves.get(naveSeleccionada)     );
+
+                                out.writeObject(naves.get(naveSeleccionada));
                                 naves.remove(naveSeleccionada);
                                 in.close();
                                 out.close();
-                                
-                                
-                                
+
                             } catch (Exception e) {
                                 e.printStackTrace();
                                 System.out.println("Error hacia Server [" + e.getMessage() + "]");
@@ -243,7 +238,7 @@ public class Realidad {
                         }
                         //</editor-fold>
 
-                         //<editor-fold defaultstate="collapsed" desc="CREAR NAVE">
+                        //<editor-fold defaultstate="collapsed" desc="CREAR NAVE">
                         if (opcionDigitada.equals("CN")) {
                             System.out.println("Que desea crear?");
                             for (Map.Entry<String, String> entry : opcionesNave.entrySet()) {
@@ -268,7 +263,7 @@ public class Realidad {
                             }
                         }
                         //</editor-fold>
-                        
+
                         //<editor-fold defaultstate="collapsed" desc="LISTA NAVE">
                         if (opcionDigitada.equals("LN")) {
                             for (Map.Entry<String, Nave> entry : naves.entrySet()) {
@@ -278,40 +273,37 @@ public class Realidad {
 
                         }
                         //</editor-fold>
-                    
-                                          //<editor-fold defaultstate="collapsed" desc="ENVIA NAVE">
+
+                        //<editor-fold defaultstate="collapsed" desc="ENVIA NAVE">
                         if (opcionDigitada.equals("SVAN")) {
                             try {
-                                
-                               
+
                                 System.out.println("Estas son las naves Disponibles:");
                                 for (Map.Entry<String, Nave> entry : naves.entrySet()) {
                                     String key = entry.getKey();
                                     Nave value = entry.getValue();
-                                    System.out.println("["+value.getNombre()+"]");
+                                    System.out.println("[" + value.getNombre() + "]");
                                 }
-                                
-                               
+
                                 System.out.println("Cual es la que desea abordar.");
-                                naveSeleccionada=reader.readLine();
+                                naveSeleccionada = reader.readLine();
                                 if (!naves.containsKey(naveSeleccionada)) {
                                     throw new Exception("La nave no existe");
                                 }
                                 System.out.println("Estas los seres vivos Disponibles:");
-                                 for (Map.Entry<String, SerVivo> entry : seresVivos.entrySet()) {
+                                for (Map.Entry<String, SerVivo> entry : seresVivos.entrySet()) {
                                     String key = entry.getKey();
                                     SerVivo value = entry.getValue();
                                     System.out.println(value.getTipo());
                                     System.out.println(value.getNombre());
                                     System.out.println(value.getEdad());
                                 }
-                                System.out.println("Cual el ser vico que abordara la nave ["+naveSeleccionada+"] .");
+                                System.out.println("Cual el ser vico que abordara la nave [" + naveSeleccionada + "] .");
                                 serVivoSeleccionado = reader.readLine();
-                                
-                                
-                                naves.get(naveSeleccionada).abordar( seresVivos.get(serVivoSeleccionado));
-                                System.out.println("["+serVivoSeleccionado+"]abordardo la nave ["+naveSeleccionada+"] .");
-                                
+
+                                naves.get(naveSeleccionada).abordar(seresVivos.get(serVivoSeleccionado));
+                                System.out.println("[" + serVivoSeleccionado + "]abordardo la nave [" + naveSeleccionada + "] .");
+
                             } catch (Exception e) {
                                 e.printStackTrace();
                                 System.out.println("Error hacia Server [" + e.getMessage() + "]");
@@ -319,7 +311,7 @@ public class Realidad {
 
                         }
                         //</editor-fold>
-                    
+
                     } else {
                         System.out.println("Opcion no valida intente nuevamente");
                     }
@@ -336,6 +328,10 @@ public class Realidad {
         }
         //</editor-fold>
 
+    }
+
+    public void ejemplo() {
+        System.out.println("dasdasdas");
     }
 
 }
