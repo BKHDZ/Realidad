@@ -226,10 +226,11 @@ public class Realidad {
                                 }
 
                                 out.writeObject(naves.get(naveSeleccionada));
-                                naves.remove(naveSeleccionada);
+
                                 for (Map.Entry<String, SerVivo> entry : naves.get(naveSeleccionada).getTripulantes().entrySet()) {
                                     seresVivos.remove(entry.getKey());
                                 }
+                                naves.remove(naveSeleccionada);
                                 in.close();
                                 out.close();
 
