@@ -13,6 +13,7 @@ import java.io.OutputStream;
 import java.io.PrintWriter;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.util.Map;
 import java.util.TreeMap;
 import objetosComunes.Nave;
 import objetosComunes.SerVivo;
@@ -46,8 +47,17 @@ public class Server2 extends Thread {
 
                     //System.out.println("DIGITADO [" + in.readLine() + "]");
                     Nave naveRecibida = (Nave) in.readObject();
-                    naves.put(naveRecibida.getNombre(), naveRecibida);
-                    System.out.println("Nave Recibida :["+naveRecibida.getNombre()+"] agregada a la lista. ");
+                    TreeMap<String, SerVivo> tripulantes = naveRecibida.getTripulantes();
+                    seresVivos.putAll(tripulantes);
+                    for (Map.Entry<String, SerVivo> entry : tripulantes.entrySet()) {
+                        String key = entry.getKey();
+                        SerVivo value = entry.getValue();
+                        seresVivos.put(key, value);
+                        naveRecibida.avadonarNave(key);
+                    }
+                    
+                     naves.put(naveRecibida.getNombre(), naveRecibida);
+                    System.out.println("Nave Recibida :[" + naveRecibida.getNombre() + "] agregada a la lista. ");
 
                     in.close();
                     out.close();

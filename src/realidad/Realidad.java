@@ -330,12 +330,6 @@ public class Realidad {
 
     }
 
-    public void ejemplo() {
-        System.out.println("dasdasdas");
-    }
 
-    public void ejemplo1() {
-        System.out.println("dasdasdas");
-    }
 
 }
