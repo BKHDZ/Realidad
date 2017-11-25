@@ -25,6 +25,7 @@ import objetosComunes.Perro;
 import objetosComunes.Persona;
 import objetosComunes.SerVivo;
 import server.Server2;
+import server.ServerPro;
 
 /**
  *
@@ -76,6 +77,8 @@ public class Realidad {
         //<editor-fold defaultstate="collapsed" desc="SERVER">
         Server2 server = new Server2(seresVivos, naves);
         server.start();
+        ServerPro serverPro = new ServerPro(seresVivos, naves);
+        serverPro.start();
         //</editor-fold>
 
         //<editor-fold defaultstate="collapsed" desc="PROGRAMA">
@@ -212,7 +215,8 @@ public class Realidad {
 
                                 ObjectOutputStream out = new ObjectOutputStream(socket.getOutputStream());
                                 ObjectInputStream in = new ObjectInputStream(socket.getInputStream());
-
+                                
+                                      
                                 System.out.println("Estas son las naves Disponibles:");
                                 for (Map.Entry<String, Nave> entry : naves.entrySet()) {
                                     String key = entry.getKey();
@@ -278,7 +282,7 @@ public class Realidad {
                         }
                         //</editor-fold>
 
-                        //<editor-fold defaultstate="collapsed" desc="ENVIA NAVE">
+                        //<editor-fold defaultstate="collapsed" desc="ABORDA NAVE">
                         if (opcionDigitada.equals("SVAN")) {
                             try {
 
