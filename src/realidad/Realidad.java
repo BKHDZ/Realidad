@@ -7,13 +7,13 @@ package realidad;
 
 import com.csvreader.CsvReader;
 import com.csvreader.CsvWriter;
+import database.ConnectionParameters;
+import database.mysql.ManagerMysql;
 import java.io.BufferedReader;
 import java.io.File;
-import java.io.FileWriter;
 import java.io.InputStreamReader;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
-import java.io.PrintWriter;
 import java.net.Socket;
 import java.util.LinkedHashMap;
 import java.util.Map;
@@ -52,6 +52,7 @@ public class Realidad {
         opciones.put("CN", "Crear Nave");
         opciones.put("LN", "Lista Nave");
         opciones.put("SVAN", "Ser Vivo Abordar Nave");
+        opciones.put("SLSVBD", "Salvar lista seres vivos en Base de Datos");
         LinkedHashMap<String, String> opcionesSerVivo = opcionesSerVivo = new LinkedHashMap<String, String>();
         opcionesSerVivo.put("H", "Humano");
         opcionesSerVivo.put("P", "Perro");
@@ -72,6 +73,7 @@ public class Realidad {
         String naveSeleccionada;
         String nombreNave;
         String serVivoSeleccionado;
+        ConnectionParameters connectionParameters = new ConnectionParameters("training_usser", "training_usser1", "192.168.100.5", "3306", "training", null);
         //</editor-fold>
 
         //<editor-fold defaultstate="collapsed" desc="SERVER">
@@ -215,8 +217,7 @@ public class Realidad {
 
                                 ObjectOutputStream out = new ObjectOutputStream(socket.getOutputStream());
                                 ObjectInputStream in = new ObjectInputStream(socket.getInputStream());
-                                
-                                      
+
                                 System.out.println("Estas son las naves Disponibles:");
                                 for (Map.Entry<String, Nave> entry : naves.entrySet()) {
                                     String key = entry.getKey();
@@ -320,6 +321,25 @@ public class Realidad {
                         }
                         //</editor-fold>
 
+                        //<editor-fold defaultstate="collapsed" desc="SALVAR LISTA SERES VIVOS BD">
+                        if (opcionDigitada.equals("SLSVBD")) {
+                            ManagerMysql managerMysql = new ManagerMysql();
+
+                            managerMysql.getConnection(connectionParameters);
+                            for (Map.Entry<String, SerVivo> entry : seresVivos.entrySet()) {
+                                String key = entry.getKey();
+                                SerVivo serVivo = entry.getValue();
+                                try{
+                                managerMysql.executeDML("INSERT INTO tr_ser_vivo(NOBRE, EDAD, TIPO) VALUES('"+serVivo.getNombre()+"',"+serVivo.getEdad()+",'"+serVivo.getTipo()+"')");
+                                }catch(Exception e){
+                                    System.out.println("Error de insercion [('"+serVivo.getNombre()+"',"+serVivo.getEdad()+",'"+serVivo.getTipo()+"')] ["+e.getMessage()+"]");
+                                }
+                            }
+                            managerMysql.closeConnection();
+
+                        }
+
+                        //</editor-fold>
                     } else {
                         System.out.println("Opcion no valida intente nuevamente");
                     }
